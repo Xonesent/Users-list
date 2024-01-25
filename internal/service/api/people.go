@@ -15,16 +15,17 @@ func New_People_service(people repository.People) *People_service {
 	return &People_service{people: people}
 }
 
-func (s *People_service) Get_Person() {
-
+func (s *People_service) Get_People(ctx context.Context, data *server.Get_structure) ([]server.Patch_structure, error) {
+	people, err := s.people.Get_People(ctx, data)
+	return people, err
 }
 
-func (s *People_service) Delete_Person(ctx context.Context, index int) (error) {
+func (s *People_service) Delete_Person(ctx context.Context, index int) error {
 	err := s.people.Delete_Person(ctx, index)
 	return err
 }
 
-func (s *People_service) Patch_Person(ctx context.Context, data *server.Patch_structure) (error) {
+func (s *People_service) Patch_Person(ctx context.Context, data *server.Patch_structure) error {
 	err := s.people.Patch_Person(ctx, data)
 	return err
 }

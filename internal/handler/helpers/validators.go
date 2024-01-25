@@ -128,3 +128,68 @@ func Validate_Patch_Structure(input *server.Patch_structure) error {
 	}
 	return nil
 }
+
+func Validate_Get_Structure(input *server.Get_structure) error {
+	count := 0
+	if input.Id != 0 {
+		if err := Validate_Id(input.Id); err != nil {
+			return err
+		}
+		count++
+	}
+
+	if input.Name != "" {
+		if err := Validate_Name(input.Name); err != nil {
+			return err
+		}
+		count++
+	}
+
+	if input.Surname != "" {
+		if err := Validate_Surname(input.Surname); err != nil {
+			return err
+		}
+		count++
+	}
+
+	if input.Patronymic != "" {
+		if err := Validate_Patronymic(input.Patronymic); err != nil {
+			return err
+		}
+		count++
+	}
+
+	if input.Age != 0 {
+		if err := Validate_Age(input.Age); err != nil {
+			return err
+		}
+		count++
+	}
+
+	if input.Gender != "" {
+		if err := Validate_Gender(input.Gender); err != nil {
+			return err
+		}
+		count++
+	}
+
+	if input.Nationality != "" {
+		if err := Validate_Nationality(input.Nationality); err != nil {
+			return err
+		}
+		count++
+	}
+
+	if input.Limit < 0 {
+		return errors.New("invalid limit")
+	}
+
+	if input.Offset < 0 {
+		return errors.New("invalid offset")
+	}
+
+	if count == 0 {
+		return errors.New("nothing to get")
+	}
+	return nil
+}

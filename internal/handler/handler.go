@@ -18,7 +18,7 @@ func (h *Handler) Init_Routes() *gin.Engine {
 
 	api := router.Group("/api")
 	{
-		api.GET("/person", h.Get_Person)
+		api.GET("/person", h.Get_People)
 		api.DELETE("/person/:id", h.Delete_Person)
 		api.PATCH("/person", h.Patch_Person)
 		api.POST("/person", h.Post_Person)
@@ -28,7 +28,7 @@ func (h *Handler) Init_Routes() *gin.Engine {
 }
 
 type People interface {
-	Get_Person(c *gin.Context)
+	Get_People(c *gin.Context)
 	Delete_Person(c *gin.Context)
 	Patch_Person(c *gin.Context)
 	Post_Person(c *gin.Context)

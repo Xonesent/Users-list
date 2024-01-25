@@ -1,42 +1,54 @@
 package server
 
 type Post_structure struct {
-	Name string `json:"name" binding:"required"`
-	Surname string `json:"surname" binding:"required"`
+	Name       string `json:"name" binding:"required"`
+	Surname    string `json:"surname" binding:"required"`
 	Patronymic string `json:"patronymic"`
 }
 
 type Patch_structure struct {
-	Id          int  `json:"id" db:"id"`
+	Id          int    `json:"id" db:"id"`
 	Name        string `json:"name" db:"name"`
 	Surname     string `json:"surname" db:"surname"`
 	Patronymic  string `json:"patronymic" db:"patronymic"`
-	Age         int   `json:"age" db:"age"`
+	Age         int    `json:"age" db:"age"`
 	Gender      string `json:"gender" db:"gender"`
 	Nationality string `json:"nationality" db:"nationality"`
 }
 
+type Get_structure struct {
+	Id          int    `json:"id" db:"id"`
+	Name        string `json:"name" db:"name"`
+	Surname     string `json:"surname" db:"surname"`
+	Patronymic  string `json:"patronymic" db:"patronymic"`
+	Age         int    `json:"age" db:"age"`
+	Gender      string `json:"gender" db:"gender"`
+	Nationality string `json:"nationality" db:"nationality"`
+	Limit       int    `json:"limit" db:"limit"`
+	Offset      int    `json:"offset" db:"offset"`
+}
+
 type Person_structure struct {
-	Name        string `db:"name"`
-	Surname     string `db:"surname"`
-	Patronymic  string `db:"patronymic"`
-	Age         int   `db:"age"`
-	Gender      string `db:"gender"`
-	Nationality string `db:"nationality"`
+	Name        string `json:"name" db:"name"`
+	Surname     string `json:"surname" db:"surname"`
+	Patronymic  string `json:"patronymic" db:"patronymic"`
+	Age         int    `json:"age" db:"age"`
+	Gender      string `json:"gender" db:"gender"`
+	Nationality string `json:"nationality" db:"nationality"`
 }
 
 type Enricher_structure struct {
-	Age         int   
-	Gender      string 
-	Nationality string 
+	Age         int
+	Gender      string
+	Nationality string
 }
 
 type Age_str struct {
-	Age         int `json:"age"`
+	Age int `json:"age"`
 }
 
 type Gender_str struct {
-	Gender      string `json:"gender"`
+	Gender string `json:"gender"`
 }
 
 type Nationality_str struct {
