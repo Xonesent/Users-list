@@ -19,8 +19,9 @@ func (s *People_service) Get_Person() {
 
 }
 
-func (s *People_service) Delete_Person() {
-
+func (s *People_service) Delete_Person(ctx context.Context, index int) (error) {
+	err := s.people.Delete_Person(ctx, index)
+	return err
 }
 
 func (s *People_service) Patch_Person(ctx context.Context, data *server.Patch_structure) (error) {

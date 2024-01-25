@@ -2,6 +2,7 @@ package r_api
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	r_help "users-list/internal/repository/helpers"
 	"users-list/server"
@@ -21,16 +22,40 @@ func (r *People_repository) Get_Person() {
 
 }
 
-func (r *People_repository) Delete_Person() {
+func (r *People_repository) Delete_Person(ctx context.Context, index int) error {
+	var exists bool
 
+	query := fmt.Sprintf("SELECT EXISTS(SELECT 1 FROM %s WHERE id = $1)", Users_Table)
+	err := r.db.QueryRow(query, index).Scan(&exists)
+	if err != nil {
+		return err
+	}
+	if !exists {
+		return errors.New("no id found")
+	}
+
+	query = fmt.Sprintf("DELETE FROM %s WHERE id=$1", Users_Table)
+	_, err = r.db.Exec(query, index)
+	return err
 }
 
-func (r *People_repository) Patch_Person(ctx context.Context, data *server.Patch_structure) (error) {
-	sql_req, sql_args := r_help.ExtractSQL(data)
+func (r *People_repository) Patch_Person(ctx context.Context, data *server.Patch_structure) error {
+	var exists bool
+
+	query := fmt.Sprintf("SELECT EXISTS(SELECT 1 FROM %s WHERE id = $1)", Users_Table)
+	err := r.db.QueryRow(query, data.Id).Scan(&exists)
+	if err != nil {
+		return err
+	}
+	if !exists {
+		return errors.New("no id found")
+	}
 	
-	query := fmt.Sprintf("UPDATE %s SET %s", Users_Table, sql_req)
-    _, err := r.db.Exec(query, sql_args...)
-    
+	sql_req, sql_args := r_help.ExtractSQL(data)
+
+	query = fmt.Sprintf("UPDATE %s SET %s", Users_Table, sql_req)
+	_, err = r.db.Exec(query, sql_args...)
+
 	return err
 }
 

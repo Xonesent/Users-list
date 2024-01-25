@@ -2,6 +2,7 @@ package h_api
 
 import (
 	"net/http"
+	"strconv"
 	h_help "users-list/internal/handler/helpers"
 	"users-list/internal/service"
 	"users-list/server"
@@ -22,7 +23,24 @@ func (h *People_handler) Get_Person(c *gin.Context) {
 }
 
 func (h *People_handler) Delete_Person(c *gin.Context) {
+	index, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		server.New_Error_Response(c, http.StatusBadRequest, "id conversion error")
+		return
+	}
 
+	if err := h_help.Validate_Id(index); err != nil {
+		server.New_Error_Response(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	err = h.people.Delete_Person(c.Request.Context(), index)
+	if err != nil {
+		server.New_Error_Response(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, server.Status_Response{Status: "ok"})
 }
 
 func (h *People_handler) Patch_Person(c *gin.Context) {

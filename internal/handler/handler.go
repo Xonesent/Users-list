@@ -19,7 +19,7 @@ func (h *Handler) Init_Routes() *gin.Engine {
 	api := router.Group("/api")
 	{
 		api.GET("/person", h.Get_Person)
-		api.DELETE("/person", h.Delete_Person)
+		api.DELETE("/person/:id", h.Delete_Person)
 		api.PATCH("/person", h.Patch_Person)
 		api.POST("/person", h.Post_Person)
 	}
