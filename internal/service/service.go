@@ -1,18 +1,25 @@
 package service
 
-import "users-list/internal/repository"
+import (
+	"context"
+	"users-list/internal/repository"
+	s_api "users-list/internal/service/api"
+	"users-list/server"
+)
 
 type People interface {
 	Get_Person()
 	Delete_Person()
 	Patch_Person()
-	Post_Person()
+	Post_Person(ctx context.Context, data *server.Post_structure) (int, error)
 }
 
-type Service struct{
+type Service struct {
 	People
 }
 
 func New_Service(repos *repository.Repository) *Service {
-	return &Service{}
+	return &Service{
+		People : s_api.New_People_service(repos.People),
+	}
 }

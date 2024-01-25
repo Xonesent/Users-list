@@ -1,7 +1,7 @@
 package handler
 
 import (
-	handler_api "users-list/internal/handler/api"
+	h_api "users-list/internal/handler/api"
 	"users-list/internal/service"
 
 	"github.com/gin-gonic/gin"
@@ -9,7 +9,7 @@ import (
 
 func New_Handler(services *service.Service) *Handler {
 	return &Handler{
-		People: handler_api.New_People_handler(services.People),
+		People: h_api.New_People_handler(services.People),
 	}
 }
 
