@@ -10,7 +10,7 @@ type Person_structure struct {
 	Name        string `db:"name"`
 	Surname     string `db:"surname"`
 	Patronymic  string `db:"patronymic"`
-	Age         uint   `db:"age"`
+	Age         int   `db:"age"`
 	Gender      string `db:"gender"`
 	Nationality string `db:"nationality"`
 }
