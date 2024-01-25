@@ -1,3 +1,11 @@
+port: "8080"
+
+db :
+  username: "postgres"
+  host: "localhost"
+  port: "5436"
+  sslmode: "disable"
+
 age_api: "https://api.agify.io/?name="
 gender_api: "https://api.genderize.io/?name="
 nation_api: "https://api.nationalize.io/?name="
