@@ -3,6 +3,7 @@ package r_api
 import (
 	"context"
 	"fmt"
+	r_help "users-list/internal/repository/helpers"
 	"users-list/server"
 
 	"github.com/jmoiron/sqlx"
@@ -24,8 +25,13 @@ func (r *People_repository) Delete_Person() {
 
 }
 
-func (r *People_repository) Patch_Person() {
-
+func (r *People_repository) Patch_Person(ctx context.Context, data *server.Patch_structure) (error) {
+	sql_req, sql_args := r_help.ExtractSQL(data)
+	
+	query := fmt.Sprintf("UPDATE %s SET %s", Users_Table, sql_req)
+    _, err := r.db.Exec(query, sql_args...)
+    
+	return err
 }
 
 func (r *People_repository) Post_Person(ctx context.Context, data *server.Person_structure) (int, error) {

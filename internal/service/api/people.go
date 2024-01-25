@@ -23,8 +23,9 @@ func (s *People_service) Delete_Person() {
 
 }
 
-func (s *People_service) Patch_Person() {
-
+func (s *People_service) Patch_Person(ctx context.Context, data *server.Patch_structure) (error) {
+	err := s.people.Patch_Person(ctx, data)
+	return err
 }
 
 func (s *People_service) Post_Person(ctx context.Context, data *server.Post_structure) (int, error) {

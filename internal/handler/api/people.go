@@ -26,7 +26,25 @@ func (h *People_handler) Delete_Person(c *gin.Context) {
 }
 
 func (h *People_handler) Patch_Person(c *gin.Context) {
+	var input server.Patch_structure
 
+	if err := c.BindJSON(&input); err != nil {
+		server.New_Error_Response(c, http.StatusBadRequest, "invalid input body")
+		return
+	}
+
+	if err := h_help.Validate_Patch_Structure(&input); err != nil {
+		server.New_Error_Response(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	err := h.people.Patch_Person(c.Request.Context(), &input)
+	if err != nil {
+		server.New_Error_Response(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, server.Status_Response{Status: "ok"})
 }
 
 func (h *People_handler) Post_Person(c *gin.Context) {
