@@ -15,8 +15,11 @@ services:
     restart: always
     image: postgres:latest
     volumes:
-    - ./.database/postgres/data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=test
     ports:
       - 5436:5432
+
+volumes:
+  postgres_data:
