@@ -1,7 +1,10 @@
 package main
 
 import (
+	"context"
 	"os"
+	"os/signal"
+	"syscall"
 	"users-list/internal/handler"
 	"users-list/internal/repository"
 	r_api "users-list/internal/repository/api"
@@ -41,8 +44,22 @@ func main() {
 	handlers := handler.New_Handler(services)
 
 	server := new(server.Server)
-	if err := server.Run(viper.GetString("port"), handlers.Init_Routes()); err != nil {
-		logrus.Fatalf("error occured while running http server: %s", err.Error())
+	go func() {
+		if err := server.Run(viper.GetString("port"), handlers.Init_Routes()); err != nil {
+			logrus.Fatalf("error occured while running http server: %s", err.Error())
+		}
+	}()
+
+	logrus.Print("App Started")
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+	<-quit
+
+	logrus.Print("App Shutting Down")
+
+	if err := server.Shutdown(context.Background()); err != nil {
+		logrus.Errorf("error occured on server shutting down: %s", err.Error())
 	}
 }
 
