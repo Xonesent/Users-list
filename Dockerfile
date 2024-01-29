@@ -12,4 +12,3 @@ RUN chmod +x wait-for-postgres.sh
 RUN go build -o user-app ./cmd/main.go
 
 CMD ["./user-app"]
-CMD ["migrate -path ./schema -database 'postgres://postgres:test@localhost:5436/postgres?sslmode=disable' up"]
